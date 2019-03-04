@@ -13,9 +13,10 @@ module tb ();
 
 	wire serial;
 
-	reg [7:0] data = 0;
+	reg [7:0] data = 8'h5C;
 
 	initial begin
+		#20
 		send = 1;
 	end
 
@@ -24,11 +25,11 @@ module tb ();
 	end
 
 	initial begin
-		repeat(1000) #0.5 clk = !clk;
+		repeat(4000) #0.5 clk = !clk;
 		$finish;
 	end
 
-	uart_tx #(8, 4) tx(
+	uart_tx #(8, 8) tx(
 		.data(data),
 		.clk(clk),
 		.send(send),
@@ -39,7 +40,7 @@ module tb ();
 	wire [7:0] data2;
 	wire rdy;
 
-	uart_rx #(8, 4) rx(
+	uart_rx #(8, 8) rx(
 		.clk(clk),
 		.rx(serial),
 		.data(data2),

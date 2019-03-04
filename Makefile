@@ -6,8 +6,10 @@ all: $(PROJ).rpt $(PROJ).bin
 
 ############ BUILD ############
 
+-include deps.d
+
 %.blif: %.v
-	yosys -p 'synth_ice40 -top $(PROJ) -blif $@' $<
+	yosys -p 'synth_ice40 -top $(PROJ) -blif $@' $< -E deps.d
 
 %.asc: $(PIN_DEF) %.blif
 	arachne-pnr -d 8k -P cm81 -o $@ -p $^
@@ -40,7 +42,7 @@ prog: $(PROJ).bin
 	tinyprog -p $<
 
 clean:
-	rm -f $(PROJ).blif $(PROJ).asc $(PROJ).rpt $(PROJ).bin
+	git clean -Xf
 
 .SECONDARY:
-.PHONY: all prog clean
+.PHONY: all prog clean *.sim

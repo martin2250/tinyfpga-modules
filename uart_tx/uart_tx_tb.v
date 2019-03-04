@@ -1,7 +1,7 @@
 `timescale 1ns/1ps
 module tb ();
 	initial begin
-		$dumpfile("uart_tx_tb.vcd");
+		$dumpfile("uart_tx/uart_tx_tb.vcd");
 		$dumpvars(0, tx);
 	end
 
@@ -9,7 +9,7 @@ module tb ();
 	reg send = 1'b0;
 	wire sent;
 
-	reg [7:0] data = 0;
+	reg [7:0] data = 8'h5C;
 
 	initial begin
 		send = 1;
@@ -24,7 +24,7 @@ module tb ();
 		$finish;
 	end
 
-	uart_tx tx(
+	uart_tx #(.CLKDIV(16)) tx(
 		.data(data),
 		.clk(clk),
 		.send(send),

@@ -13,7 +13,7 @@ module top (
 	wire [7:0] data;
 	wire rdy;
 
-	uart_tx #(.CLKDIV(32)) tx(
+	uart_tx #(.CLKDIV(16)) tx(
 		.clk(CLK),
 		.data(data),
 		.tx(PIN_2),
