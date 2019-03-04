@@ -1,27 +1,29 @@
-// look in pins.pcf for all the pin names on the TinyFPGA BX board
+`include "uart_tx/uart_tx.v"
+`include "uart_rx/uart_rx.v"
+
 module top (
-    input CLK,    // 16MHz clock
-    output LED,   // User/boot LED next to power LED
-    output USBPU  // USB pull-up resistor
+	input CLK,
+	output USBPU,
+
+	input PIN_1,	// RX
+	output PIN_2	// TX
 );
-    // drive USB pull-up resistor to '0' to disable USB
-    assign USBPU = 0;
+	assign USBPU = 0;
 
-    ////////
-    // make a simple blink circuit
-    ////////
+	wire [7:0] data;
+	wire rdy;
 
-    // keep track of time and location in blink_pattern
-    reg [25:0] blink_counter;
+	uart_tx #(.CLKDIV(32)) tx(
+		.clk(CLK),
+		.data(data),
+		.tx(PIN_2),
+		.send(rdy)
+		);
 
-    // pattern that will be flashed over the LED over time
-    wire [31:0] blink_pattern = 32'b101010001110111011100010101;
-
-    // increment the blink_counter every clock
-    always @(posedge CLK) begin
-        blink_counter <= blink_counter + 1;
-    end
-    
-    // light up the LED according to the pattern
-    assign LED = blink_pattern[blink_counter[25:21]];
+	uart_rx #(.CLKDIV(32)) rx(
+		.clk(CLK),
+		.data(data),
+		.rx(PIN_1),
+		.recv(rdy)
+		);
 endmodule

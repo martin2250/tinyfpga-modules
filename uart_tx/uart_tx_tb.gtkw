@@ -1,0 +1,31 @@
+[*]
+[*] GTKWave Analyzer v3.3.94 (w)1999-2018 BSI
+[*] Mon Mar  4 08:04:46 2019
+[*]
+[dumpfile] "/home/martin/Desktop/tinyfpga-uart/uart_tx_tb.vcd"
+[dumpfile_mtime] "Mon Mar  4 07:59:43 2019"
+[dumpfile_size] 1940
+[savefile] "/home/martin/Desktop/tinyfpga-uart/uart_tx_tb.gtkw"
+[timestart] 0
+[size] 1000 600
+[pos] 2007 210
+*-13.000000 5070 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] tb.
+[sst_width] 205
+[signals_width] 118
+[sst_expanded] 1
+[sst_vpaned_height] 157
+@28
+tb.tx.clk
+tb.tx.send
+@22
+tb.tx.buffer[9:0]
+@28
+tb.tx.active
+tb.tx.sent
+@22
+tb.tx.data[7:0]
+@28
+tb.tx.tx
+[pattern_trace] 1
+[pattern_trace] 0
