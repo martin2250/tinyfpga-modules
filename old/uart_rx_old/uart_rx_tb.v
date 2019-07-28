@@ -1,9 +1,9 @@
 `timescale 1ns/1ps
-`include "../uart_tx/uart_tx.v"
+`include "uart_tx/uart_tx.v"
 
 module tb ();
 	initial begin
-		$dumpfile("uart_rx_tb.vcd");
+		$dumpfile("uart_rx/uart_rx_tb.vcd");
 		$dumpvars(0, tb);
 	end
 
@@ -25,11 +25,11 @@ module tb ();
 	end
 
 	initial begin
-		repeat(10000) #0.5 clk = !clk;
+		repeat(4000) #0.5 clk = !clk;
 		$finish;
 	end
 
-	uart_tx #(8, 4) tx(
+	uart_tx #(8, 8) tx(
 		.data(data),
 		.clk(clk),
 		.send(send),
@@ -37,8 +37,19 @@ module tb ();
 		.tx(serial)
 		);
 
-	uart_rx #(8, 4) rx(
+	wire [7:0] data2;
+	wire rdy;
+
+	uart_rx #(8, 8) rx(
 		.clk(clk),
-		.rx(serial)
+		.rx(serial),
+		.data(data2),
+		.recv(rdy)
+		);
+
+	uart_tx #(8, 8) tx2(
+		.data(data2),
+		.clk(clk),
+		.send(rdy)
 		);
 endmodule

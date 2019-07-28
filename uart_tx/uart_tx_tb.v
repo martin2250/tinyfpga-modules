@@ -1,8 +1,8 @@
 `timescale 1ns/1ps
 module tb ();
 	initial begin
-		$dumpfile("uart_tx/uart_tx_tb.vcd");
-		$dumpvars(0, tx);
+		$dumpfile("uart_tx_tb.vcd");
+		$dumpvars(0, tb);
 	end
 
 	reg clk = 1'b0;
@@ -20,11 +20,11 @@ module tb ();
 	end
 
 	initial begin
-		repeat(1000) #0.5 clk = !clk;
+		repeat(10000) #0.5 clk = !clk;
 		$finish;
 	end
 
-	uart_tx #(.CLKDIV(16)) tx(
+	uart_tx #(.CLKDIV(4)) tx(
 		.data(data),
 		.clk(clk),
 		.send(send),

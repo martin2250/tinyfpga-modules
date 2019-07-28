@@ -30,7 +30,6 @@ module uart_rx (
 
 	always @(posedge clk) begin
 		counter <= counter + 1;
-		recv <= 0;
 
 		// reset prescale counter at every edge to sync with transmitter
 		// reset prescale counter when CLKDIV is reached
@@ -40,13 +39,22 @@ module uart_rx (
 		rx_buffer <= rx;
 
 		// data was moved to data register, reset buffer
+		if (recv) begin
+			buffer <= {(WIDTH+1){1'b1}};
+		end
+		// sample rx
+		else if (sample_strobe) begin
+			buffer <= {rx, buffer[WIDTH:1]};
+		end
+	end
+
+	always @(negedge clk) begin
+		recv <= 0;
+
+		// start bit at lsb of buffer
 		if (buffer[0] == 0) begin
 			data <= buffer[WIDTH:1];
-			buffer <= {(WIDTH+1){1'b1}};
 			recv <= 1;
-		end else if (sample_strobe) begin
-			// sample rx
-			buffer <= {rx, buffer[WIDTH:1]};
 		end
 	end
 endmodule
